@@ -1,0 +1,21 @@
+@import "~bootstrap/dist/css/bootstrap-grid.min.css";
+@import "~bootstrap/dist/css/bootstrap-utilities.min.css";
+
+.container {
+  padding: 48px;
+  background-color: beige;
+} 
+.header {
+}
+.title {
+}
+.subtitle {
+}
+.search-form {
+}
+.search-form__input {
+}
+.search-form__sbt-btn {
+}
+.link-example {
+}
