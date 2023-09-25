@@ -12,11 +12,12 @@
       <h1 class="title">RSS агрегатор</h1>
       <h2 class="subtitle">Начните читать RSS сегодня! Это легко, это красиво.</h2>
       <form action="get" class="search-form">
-        <label for="rss-link">Ссылка RSS</label>
-        <input class='search-form__input' name='rss-link' type="text" autocomplete="off" >
+        <label class='search-form__input-label' for="rss-link">Ссылка RSS</label>
+        <input class='search-form__input' name='rss-link' type="text" autocomplete="off" autofocus required placeholder="ссылка RSS">
         <button class="search-form__sbt-btn">Добавить</button>
       </form>
-      <p class="link-example">Пример: https://ru.hexlet.io/lessons.rss</p>
+      <p class="example-url">Пример: https://ru.hexlet.io/lessons.rss</p>
+      <p class="feedback"></p>
     </div>
   </div>
 </body>
