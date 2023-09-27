@@ -1,7 +1,7 @@
-import './reset.css';
-import './style.css';
+import './css/reset.css';
+import './css/style.css';
 import 'bootstrap';
-import init from './view';
+import init from './app';
 
 console.log('hello');
 init();
