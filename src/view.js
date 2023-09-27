@@ -1,24 +1,39 @@
-import createWatchedState from './model';
-import initController from './controller';
+import onChange from 'on-change';
 
-export default () => {
-  const state = {
-    form: {
-      formStatus: 'invalid',
-      currentFeed: '',
-    },
-    feeds: [],
-    error: '',
-    status: 'input',
+export default (state, elements, i18n) => {
+  const { submitButton, field, feedbackField } = elements;
+
+  const onStatusChange = (status) => {
+    submitButton.disabled = status !== 'input';
   };
 
-  const elements = {
-    form: document.querySelector('form'),
-    submitButton: document.querySelector('button'),
-    input: document.querySelector('input'),
-    feedbackField: document.querySelector('.feedback'),
+  const handleError = (error, previousError) => {
+    const errorText = error ? i18n.t(error) : i18n.t('success');
+    feedbackField.textContent = errorText;
+    if (error && previousError) {
+      return;
+    }
+    if (error) {
+      field.classList.add('invalid');
+      field.classList.remove('is-valid');
+    } else {
+      field.classList.remove('invalid');
+      field.classList.add('is-valid');
+    }
   };
 
-  const watchedState = createWatchedState(state, elements);
-  initController(elements.form, watchedState);
+  const watchedState = onChange(state, (path, value, previousValue) => {
+    switch (path) {
+      case 'status':
+        onStatusChange(value);
+        break;
+      case 'error':
+        handleError(value, previousValue);
+        break;
+      default:
+        break;
+    }
+  });
+
+  return watchedState;
 };
