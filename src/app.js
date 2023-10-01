@@ -1,13 +1,16 @@
 import * as yup from 'yup';
 import i18next from 'i18next';
-import resources from './locales/ru';
+// import resources from './locales/ru';
+import rss from './rss';
 import createWatchedState from './view';
 
 export default async () => {
   const state = {
     feeds: [],
-    error: '',
+    error: '.',
     status: 'input',
+    data: [],
+    feedbackStatus: '',
   };
 
   const elements = {
@@ -15,6 +18,8 @@ export default async () => {
     submitButton: document.querySelector('button'),
     field: document.querySelector('input'),
     feedbackField: document.querySelector('.feedback'),
+    feedsContainer: document.querySelector('.feeds'),
+    postsContainer: document.querySelector('.posts'),
   };
 
   const defaultLang = 'ru';
@@ -64,14 +69,17 @@ export default async () => {
     const feed = data.get('rss-link');
     validator(feed, state.feeds)
       .then((validFeed) => {
-        console.log(validFeed);
+        rss(validFeed, watchedState);
         watchedState.feeds.push(validFeed);
         watchedState.status = 'input';
         watchedState.error = '';
+        watchedState.feedbackStatus = 'success';
       })
       .catch((e) => {
         watchedState.status = 'input';
         watchedState.error = e.message.key;
+        watchedState.feedbackStatus = 'error';
+
         console.log(e.message.key);
       });
   });
