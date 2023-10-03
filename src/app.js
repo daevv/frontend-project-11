@@ -1,18 +1,25 @@
 import * as yup from 'yup';
 import i18next from 'i18next';
 // import resources from './locales/ru';
-import rss from './rss';
+import formController from './formController';
 import createWatchedState from './view';
+import { feeds, posts } from './model';
+import checkForUpdates from './checkForUpdates';
 
 export default async () => {
   const state = {
-    feeds: [],
-    error: '.',
-    status: 'input',
-    data: [],
-    feedbackStatus: '',
+    form: {
+      error: '.',
+      status: 'input',
+      feedbackStatus: '',
+    },
+    data: {
+      feeds,
+      posts,
+      lastFeed: '',
+      lastPosts: [],
+    },
   };
-
   const elements = {
     form: document.querySelector('form'),
     submitButton: document.querySelector('button'),
@@ -56,31 +63,14 @@ export default async () => {
     },
   });
 
-  const validator = (currentFeed, feeds) => {
-    const schema = yup.string().url().notOneOf(feeds);
+  const validator = (currentFeed) => {
+    const feedsList = state.data.feeds.map(({ url }) => url);
+    const schema = yup.string().url().notOneOf(feedsList);
     return schema.validate(currentFeed);
   };
 
   const watchedState = createWatchedState(state, elements, i18n);
-  elements.form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    watchedState.status = 'checking';
-    const data = new FormData(evt.target);
-    const feed = data.get('rss-link');
-    validator(feed, state.feeds)
-      .then((validFeed) => {
-        rss(validFeed, watchedState);
-        watchedState.feeds.push(validFeed);
-        watchedState.status = 'input';
-        watchedState.error = '';
-        watchedState.feedbackStatus = 'success';
-      })
-      .catch((e) => {
-        watchedState.status = 'input';
-        watchedState.error = e.message.key;
-        watchedState.feedbackStatus = 'error';
+  elements.form.addEventListener('submit', (evt) => formController(evt, watchedState, validator));
 
-        console.log(e.message.key);
-      });
-  });
+  checkForUpdates(watchedState);
 };
