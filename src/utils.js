@@ -1,6 +1,9 @@
 const initIdGenerator = () => {
-  const id = 0;
-  return () => id + 1;
+  let id = 0;
+  return () => {
+    id += 1;
+    return id;
+  };
 };
 
 export { initIdGenerator };
