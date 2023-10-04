@@ -31,7 +31,7 @@ export default (state, elements, i18n) => {
     feedsList.insertBefore(feedElement, feedsList.firstElementChild);
   };
 
-  const renderPosts = (posts) => {
+  const renderPosts = ({ lastPosts, readPostsIds }) => {
     if (!postsContainer.firstElementChild) {
       postsContainer.innerHTML = `
       <div class="card border-0">
@@ -45,16 +45,29 @@ export default (state, elements, i18n) => {
     const postsList = postsContainer.querySelector('ul');
 
     // возможно придётся реверснуть, чтобы изменить порядок
-    const html = posts.map((post) => {
+    lastPosts.forEach((post) => {
       const { postTitle, postLink, postId } = post;
-      return `
-        <li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
-          <a href="${postLink}" class="fw-bold" data-id="${postId}" target="_blank" rel="noopener noreferrer">${postTitle}</a>
-          <button type="button" class="btn btn-outline-primary btn-sm" data-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>
-        </li>`;
-    }).join('');
+      const listElement = document.createElement('li');
+      listElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+      listElement.innerHTML = `<a href="${postLink}" class="${readPostsIds.includes(postId) ? 'fw-normal' : 'fw-bold'}" data-id="${postId}" target="_blank" rel="noopener noreferrer">${postTitle}</a>`;
 
-    postsList.innerHTML = html + postsList.innerHTML;
+      const viewButton = document.createElement('button');
+      viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+      viewButton.textContent = 'Просмотр';
+      viewButton.type = 'button';
+      viewButton.dataset.id = postId;
+      viewButton.dataset.bsToggle = 'modal';
+      viewButton.dataset.bsTarget = '#exampleModal';
+      listElement.appendChild(viewButton);
+
+      viewButton.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        const postElement = evt.target.closest('li').querySelector('a');
+        postElement.classList = 'fw-normal';
+        readPostsIds.push(postElement.dataset.id);
+      });
+      postsList.prepend(listElement);
+    });
   };
 
   const handleStatusChange = (status) => {
@@ -98,7 +111,7 @@ export default (state, elements, i18n) => {
         renderFeed(state.data.lastFeed);
         break;
       case 'data.posts':
-        renderPosts(state.data.lastPosts);
+        renderPosts(state.data);
         break;
       case 'form.feedbackStatus':
         handleFeedbackStatusChange(value);
