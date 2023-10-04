@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import i18next from 'i18next';
 // import resources from './locales/ru';
 import formController from './formController';
+import modalController from './modalController';
 import createWatchedState from './view';
 import { feeds, posts } from './model';
 import checkForUpdates from './checkForUpdates';
@@ -18,6 +19,7 @@ export default async () => {
       posts,
       lastFeed: '',
       lastPosts: [],
+      readPostsIds: [1, 3, 7],
     },
   };
   const elements = {
@@ -27,6 +29,12 @@ export default async () => {
     feedbackField: document.querySelector('.feedback'),
     feedsContainer: document.querySelector('.feeds'),
     postsContainer: document.querySelector('.posts'),
+    modal: {
+      modalElement: document.querySelector('.modal'),
+      modalTitle: document.querySelector('.modal-title'),
+      modalBody: document.querySelector('.modal-body'),
+      modalBtn: document.querySelector('.full-article'),
+    },
   };
 
   const defaultLang = 'ru';
@@ -71,6 +79,7 @@ export default async () => {
 
   const watchedState = createWatchedState(state, elements, i18n);
   elements.form.addEventListener('submit', (evt) => formController(evt, watchedState, validator));
+  elements.modal.modalElement.addEventListener('show.bs.modal', (evt) => modalController(evt, watchedState, elements));
 
   checkForUpdates(watchedState);
 };
