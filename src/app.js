@@ -19,12 +19,12 @@ export default async () => {
       posts,
       lastFeed: '',
       lastPosts: [],
-      readPostsIds: [1, 3, 7],
+      readPostsIds: [],
     },
   };
   const elements = {
     form: document.querySelector('form'),
-    submitButton: document.querySelector('button'),
+    submitButton: document.querySelector('button[type="submit"]'),
     field: document.querySelector('input'),
     feedbackField: document.querySelector('.feedback'),
     feedsContainer: document.querySelector('.feeds'),
