@@ -21,7 +21,7 @@ export default (state, elements, i18n) => {
       feedsContainer.innerHTML = `
       <div class="card border-0">
         <div class="card-body">
-          <h2 class="card-title h4">Фиды</h2>
+          <h2 class="card-title h4">${i18n.t('feeds')}</h2>
         </div>
         <ul class="list-group border-0 rounded-0">
         </ul>
@@ -36,7 +36,7 @@ export default (state, elements, i18n) => {
       postsContainer.innerHTML = `
       <div class="card border-0">
         <div class="card-body">
-          <h2 class="card-title h4">Посты</h2>
+          <h2 class="card-title h4">${i18n.t('posts')}</h2>
         </div>
         <ul class="list-group border-0 rounded-0">
         </ul>
@@ -53,7 +53,7 @@ export default (state, elements, i18n) => {
 
       const viewButton = document.createElement('button');
       viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-      viewButton.textContent = 'Просмотр';
+      viewButton.textContent = i18n.t('openFeedButton');
       viewButton.type = 'button';
       viewButton.dataset.id = postId;
       viewButton.dataset.bsToggle = 'modal';
@@ -72,6 +72,7 @@ export default (state, elements, i18n) => {
 
   const handleStatusChange = (status) => {
     submitButton.disabled = status !== 'input';
+    console.log('changing status');
   };
 
   const handleError = (error, previousError) => {

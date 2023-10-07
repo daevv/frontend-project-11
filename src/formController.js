@@ -8,18 +8,21 @@ export default (evt, state, validator) => {
   const feed = data.get('rss-link');
   validator(feed, state.data.feeds)
     .then((validFeed) => {
-      state.form.status = 'input';
       state.form.error = '';
       state.form.feedbackStatus = 'success';
       return rss(validFeed, state);
     })
     .then((parsedRss) => {
-      if (parsedRss) return parseFeed(parsedRss, state, feed);
-      throw new Error('network error');
+      if (parsedRss) {
+        parseFeed(parsedRss, state, feed);
+        state.form.status = 'input';
+        return;
+      }
+      throw new Error('errors.network.badConnection');
     })
     .catch((e) => {
       state.form.status = 'input';
-      state.form.error = e.message.key ?? e.message;
       state.form.feedbackStatus = 'error';
+      state.form.error = e.message.key ?? e.message;
     });
 };
