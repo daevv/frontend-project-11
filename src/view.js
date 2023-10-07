@@ -54,7 +54,7 @@ export default (state, elements, i18n) => {
       const viewButton = document.createElement('button');
       viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
       viewButton.textContent = i18n.t('openFeedButton');
-      viewButton.type = 'button';
+      viewButton.type = 'submit';
       viewButton.dataset.id = postId;
       viewButton.dataset.bsToggle = 'modal';
       viewButton.dataset.bsTarget = '#exampleModal';
