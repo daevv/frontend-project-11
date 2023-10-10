@@ -1,5 +1,5 @@
 import parsePosts from './parsePosts';
-import { initIdGenerator } from './utils';
+import initIdGenerator from '../utils';
 
 const feedIdGenerator = initIdGenerator();
 

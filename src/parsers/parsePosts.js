@@ -1,4 +1,4 @@
-import { initIdGenerator } from './utils';
+import initIdGenerator from '../utils';
 
 const postIdGenerator = initIdGenerator();
 
