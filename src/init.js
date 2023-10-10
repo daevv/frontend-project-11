@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 import i18next from 'i18next';
 // import resources from './locales/ru';
-import formController from './formController';
-import modalController from './modalController';
+import formController from './controllers/formController';
+import modalController from './controllers/modalController';
 import createWatchedState from './view';
 import { feeds, posts } from './model';
-import checkForUpdates from './checkForUpdates';
+import checkForUpdates from './api/checkForUpdates';
 
 export default async () => {
   const state = {
@@ -55,7 +55,7 @@ export default async () => {
               sameFeed: 'RSS уже существует',
             },
             network: {
-              badConnection: 'Плохая связь с интернетом',
+              badConnection: 'Ошибка сети',
             },
           },
         },
