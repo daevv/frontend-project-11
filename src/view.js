@@ -72,7 +72,6 @@ export default (state, elements, i18n) => {
 
   const handleStatusChange = (status) => {
     submitButton.disabled = status !== 'input';
-    console.log('changing status');
   };
 
   const handleError = (error, previousError) => {
