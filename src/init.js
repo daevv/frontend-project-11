@@ -6,6 +6,7 @@ import modalController from './controllers/modalController';
 import createWatchedState from './view';
 import { feeds, posts } from './model';
 import checkForUpdates from './api/checkForUpdates';
+import setTextContents from './setTextContents';
 
 export default async () => {
   const state = {
@@ -23,17 +24,22 @@ export default async () => {
     },
   };
   const elements = {
+    siteTitle: document.querySelector('h1'),
+    siteSubTitle: document.querySelector('p.lead'),
+    formLabel: document.querySelector('label'),
     form: document.querySelector('form'),
-    submitButton: document.querySelector('button[type="submit"]'),
+    submitButton: document.querySelector('[type="submit"]'),
     field: document.querySelector('input'),
     feedbackField: document.querySelector('.feedback'),
     feedsContainer: document.querySelector('.feeds'),
     postsContainer: document.querySelector('.posts'),
+    rssExample: document.querySelector('p.text-white'),
     modal: {
       modalElement: document.querySelector('.modal'),
       modalTitle: document.querySelector('.modal-title'),
       modalBody: document.querySelector('.modal-body'),
       modalBtn: document.querySelector('.full-article'),
+      modalCloser: document.querySelector('.btn-secondary[data-bs-dismiss="modal"]'),
     },
   };
 
@@ -45,6 +51,13 @@ export default async () => {
     resources: {
       ru: { // Тексты конкретного языка
         translation: {
+          siteTitle: 'RSS агрегатор',
+          siteSubTitle: 'Начните читать RSS сегодня! Это легко, это красиво.',
+          formLabel: 'Ссылка RSS',
+          submitButton: 'Добавить',
+          rssExample: 'Пример: https://ru.hexlet.io/lessons.rss',
+          modalBtn: 'Читать полностью',
+          modalCloser: 'Закрыть',
           posts: 'Посты',
           feeds: 'Фиды',
           openFeedButton: 'Просмотр',
@@ -63,6 +76,8 @@ export default async () => {
     },
   });
 
+  setTextContents(elements, i18n);
+
   yup.setLocale({
     mixed: {
       notOneOf: () => ({ key: 'errors.validation.sameFeed' }),
@@ -72,8 +87,8 @@ export default async () => {
     },
   });
 
-  const validator = (currentFeed) => {
-    const feedsList = state.data.feeds.map(({ url }) => url);
+  const validator = (currentFeed, addedFeeds) => {
+    const feedsList = addedFeeds.map(({ url }) => url);
     const schema = yup.string().url().notOneOf(feedsList);
     return schema.validate(currentFeed);
   };
