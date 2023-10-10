@@ -1,5 +1,5 @@
-import rss from './rss';
-import parseFeed from './parseFeed';
+import rss from '../api/rss';
+import parseFeed from '../parsers/parseFeed';
 
 export default (evt, state, validator) => {
   evt.preventDefault();
@@ -7,14 +7,14 @@ export default (evt, state, validator) => {
   const data = new FormData(evt.target);
   const feed = data.get('rss-link');
   validator(feed, state.data.feeds)
-    .then((validFeed) => {
-      state.form.error = '';
-      state.form.feedbackStatus = 'success';
-      return rss(validFeed, state);
-    })
+    .then((validFeed) => rss(validFeed, state))
     .then((parsedRss) => {
       if (parsedRss) {
+        evt.target.reset();
+        evt.target.querySelector('input').focus();
         parseFeed(parsedRss, state, feed);
+        state.form.error = '';
+        state.form.feedbackStatus = 'success';
         state.form.status = 'input';
         return;
       }
