@@ -1,4 +1,4 @@
-import parsePosts from './parsePosts';
+import parsePosts from '../parsers/parsePosts';
 import rss from './rss';
 
 const checkForUpdates = (state) => setTimeout(() => {
