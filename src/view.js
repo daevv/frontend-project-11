@@ -104,7 +104,6 @@ export default (state, elements, i18n) => {
 
   const handleFeedbackChange = (value) => {
     const feedbackText = i18n.t(value);
-    console.log(feedbackText);
     feedbackField.textContent = feedbackText;
   };
 

@@ -7,7 +7,6 @@ export default (link) => {
   const url = new URL(alloriginsHttp);
   url.searchParams.set('disableCache', true);
   url.searchParams.set('url', link);
-  console.log(url);
   return fetch(url)
     .then((response) => {
       if (response.ok) return response.json();

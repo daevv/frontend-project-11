@@ -10,6 +10,10 @@ export default (evt, state, validator) => {
     .then((validFeed) => rss(validFeed, state))
     .then((parsedRss) => {
       if (parsedRss) {
+        const containsRss = !!parsedRss.querySelector('rss');
+        if (!containsRss) {
+          throw new Error('errors.validation.invalidRss');
+        }
         evt.target.reset();
         evt.target.querySelector('input').focus();
         parseFeed(parsedRss, state, feed);
