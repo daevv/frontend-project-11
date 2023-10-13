@@ -1,6 +1,4 @@
-import initIdGenerator from '../utils';
-
-const postIdGenerator = initIdGenerator();
+import { uniqueId } from 'lodash';
 
 export default (postElements, feedId) => {
   const posts = postElements.map((item) => {
@@ -14,7 +12,7 @@ export default (postElements, feedId) => {
       postDescription,
       postLink,
       pubDate,
-      postId: postIdGenerator(),
+      postId: uniqueId(),
     };
   });
   return posts;

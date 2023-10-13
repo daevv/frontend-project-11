@@ -1,13 +1,11 @@
+import { uniqueId } from 'lodash';
 import parsePosts from './parsePosts';
-import initIdGenerator from '../utils';
-
-const feedIdGenerator = initIdGenerator();
 
 export default (rss, state, feedLink) => {
   const title = rss.querySelector('title').textContent;
   const description = rss.querySelector('description').textContent;
   const items = [...rss.querySelectorAll('item')];
-  const id = feedIdGenerator();
+  const id = uniqueId();
   const feed = {
     title,
     description,
