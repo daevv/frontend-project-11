@@ -1,5 +1,7 @@
 export default (elements, i18n) => {
-  const setText = (element, text) => element.textContent = text;
+  const setText = (element, text) => {
+    element.textContent = text;
+  };
 
   setText(elements.siteTitle, i18n.t('siteTitle'));
   setText(elements.siteSubTitle, i18n.t('siteSubTitle'));
