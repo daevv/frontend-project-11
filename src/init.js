@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import i18next from 'i18next';
-// import resources from './locales/ru';
+import ru from './locales/ru';
 import formController from './controllers/formController';
 import modalController from './controllers/modalController';
 import createWatchedState from './view';
@@ -11,7 +11,7 @@ import setTextContents from './setTextContents';
 export default async () => {
   const state = {
     form: {
-      error: '.',
+      feedback: '',
       status: 'input',
       feedbackStatus: '',
     },
@@ -49,30 +49,7 @@ export default async () => {
     lng: defaultLang,
     debug: false,
     resources: {
-      ru: { // Тексты конкретного языка
-        translation: {
-          siteTitle: 'RSS агрегатор',
-          siteSubTitle: 'Начните читать RSS сегодня! Это легко, это красиво.',
-          formLabel: 'Ссылка RSS',
-          submitButton: 'Добавить',
-          rssExample: 'Пример: https://ru.hexlet.io/lessons.rss',
-          modalBtn: 'Читать полностью',
-          modalCloser: 'Закрыть',
-          posts: 'Посты',
-          feeds: 'Фиды',
-          openFeedButton: 'Просмотр',
-          success: 'RSS успешно загружен',
-          errors: {
-            validation: {
-              wrongFormat: 'Ссылка должна быть валидным URL',
-              sameFeed: 'RSS уже существует',
-            },
-            network: {
-              badConnection: 'Ошибка сети',
-            },
-          },
-        },
-      },
+      ru,
     },
   });
 
