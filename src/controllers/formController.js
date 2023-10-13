@@ -13,7 +13,7 @@ export default (evt, state, validator) => {
         evt.target.reset();
         evt.target.querySelector('input').focus();
         parseFeed(parsedRss, state, feed);
-        state.form.error = '';
+        state.form.feedback = 'success';
         state.form.feedbackStatus = 'success';
         state.form.status = 'input';
         return;
@@ -23,6 +23,6 @@ export default (evt, state, validator) => {
     .catch((e) => {
       state.form.status = 'input';
       state.form.feedbackStatus = 'error';
-      state.form.error = e.message.key ?? e.message;
+      state.form.feedback = e.message.key ?? e.message;
     });
 };

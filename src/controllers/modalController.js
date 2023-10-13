@@ -1,6 +1,5 @@
 export default (evt, state, elements) => {
-  console.log(evt.relatedTarget);
-  const postId = parseInt(evt.relatedTarget.dataset.id, 10);
+  const postId = evt.relatedTarget.dataset.id;
   const {
     postTitle,
     postDescription,
