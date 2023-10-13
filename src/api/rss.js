@@ -1,8 +1,14 @@
+const alloriginsHttp = 'https://allorigins.hexlet.app/get';
+
 export default (link) => {
   const parser = new DOMParser();
   const parse = (data) => parser.parseFromString(data, 'text/xml');
 
-  return fetch(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(link)}`)
+  const url = new URL(alloriginsHttp);
+  url.searchParams.set('disableCache', true);
+  url.searchParams.set('url', link);
+  console.log(url);
+  return fetch(url)
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error('Network error');
