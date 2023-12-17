@@ -4,7 +4,6 @@ import ru from './locales/ru';
 import formController from './controllers/formController';
 import modalController from './controllers/modalController';
 import createWatchedState from './view';
-import { feeds, posts } from './model';
 import checkForUpdates from './api/checkForUpdates';
 import setTextContents from './setTextContents';
 
@@ -16,8 +15,8 @@ export default async () => {
       feedbackStatus: '',
     },
     data: {
-      feeds,
-      posts,
+      feeds: [],
+      posts: [],
       lastFeed: '',
       lastPosts: [],
       readPostsIds: [],
